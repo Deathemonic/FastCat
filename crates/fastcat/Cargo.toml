@@ -1,10 +1,10 @@
 [package]
 name = "fastcat"
-version = "1.0.0"
-edition = "2024"
-license = "MIT OR Apache-2.0"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
 description = "Fast string concatenation, with const-str support built in."
 readme = "../../README.md"
 
 [dependencies]
-fastcat-macro = { path = "../fastcat-macro" }
+fastcat-macro.workspace = true

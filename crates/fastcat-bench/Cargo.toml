@@ -7,7 +7,7 @@ publish = false
 [dependencies]
 constcat = "0.6"
 fast-concat = "1.0.2"
-fastcat = { path = "../fastcat" }
+fastcat.workspace = true
 string_concat = "0.0.1"
 
 [dev-dependencies]
