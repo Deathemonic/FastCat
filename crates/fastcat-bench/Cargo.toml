@@ -5,9 +5,9 @@ edition = "2024"
 publish = false
 
 [dependencies]
-fastcat = { path = "../fastcat" }
-fast-concat = "1.0.2"
 constcat = "0.6"
+fast-concat = "1.0.2"
+fastcat = { path = "../fastcat" }
 string_concat = "0.0.1"
 
 [dev-dependencies]
