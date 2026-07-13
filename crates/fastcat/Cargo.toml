@@ -4,6 +4,7 @@ version = "1.0.0"
 edition = "2024"
 license = "MIT OR Apache-2.0"
 description = "Fast string concatenation, with const-str support built in."
+readme = "../../README.md"
 
 [dependencies]
 fastcat-macro = { path = "../fastcat-macro" }
