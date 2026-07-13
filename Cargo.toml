@@ -1,0 +1,3 @@
+[workspace]
+resolver = "3"
+members = ["crates/fastcat", "crates/fastcat-macro", "crates/fastcat-bench"]

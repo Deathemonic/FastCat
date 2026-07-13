@@ -1,0 +1,76 @@
+name: CI
+on: [push, pull_request]
+
+jobs:
+  check:
+    strategy:
+      matrix:
+        toolchain:
+          - "stable"
+          - "nightly"
+        include:
+          - toolchain: "nightly"
+            flags: "-Z direct-minimal-versions"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: taiki-e/install-action@cargo-hack
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.toolchain }}
+          targets: x86_64-unknown-none
+      - name: Check
+        run: rustup run ${{ matrix.toolchain }} cargo hack check --feature-powerset --workspace --all-targets ${{ matrix.flags }}
+
+  clippy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-hack
+      - name: Clippy
+        run: cargo hack clippy --feature-powerset --workspace --all-targets -- --deny warnings
+
+  doc-check:
+    runs-on: ubuntu-latest
+    env:
+      RUSTDOCFLAGS: "-D warnings"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Doc check
+        run: cargo doc --workspace --all-features
+
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@nightly
+        with:
+          components: rustfmt
+      - name: Format
+        run: cargo +nightly fmt --check --all
+
+  sort:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-sort
+      - name: Sort
+        run: cargo sort --check --workspace
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-hack
+      - name: Test
+        run: cargo hack test --feature-powerset --all-targets -q
+      - name: Doctest
+        run: cargo hack test --feature-powerset --doc -q

@@ -1,0 +1,18 @@
+[package]
+name = "fastcat-bench"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+fastcat = { path = "../fastcat" }
+fast-concat = "1.0.2"
+constcat = "0.6"
+string_concat = "0.0.1"
+
+[dev-dependencies]
+criterion = { version = "0.8", features = ["html_reports"] }
+
+[[bench]]
+name = "concat"
+harness = false

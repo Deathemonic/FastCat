@@ -1,0 +1,15 @@
+[package]
+name = "fastcat-macro"
+version = "1.0.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+description = "Procedural macro powering fastcat."
+
+[lib]
+proc-macro = true
+
+[dependencies]
+proc-macro2 = "1"
+quote = "1"
+syn = { version = "2", features = ["full"] }
+proc-macro-crate = "3"
