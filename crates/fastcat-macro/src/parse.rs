@@ -2,6 +2,7 @@ use syn::parse::{Parse, ParseStream};
 use syn::punctuated::Punctuated;
 use syn::{Expr, ExprConst, Stmt, Token};
 
+#[derive(Clone)]
 pub enum Item {
     Const(Expr),
     Dynamic(Expr),
@@ -38,14 +39,28 @@ impl Parse for Item {
 }
 
 pub struct Args {
+    pub sep: Option<Item>,
     pub items: Vec<Item>,
 }
 
 impl Parse for Args {
     fn parse(input: ParseStream) -> syn::Result<Self> {
-        let items = Punctuated::<Item, Token![,]>::parse_terminated(input)?;
+        let fork = input.fork();
+        if let Ok(_candidate) = fork.parse::<Item>()
+            && fork.peek(Token![;])
+        {
+            let sep: Item = input.parse()?;
+            input.parse::<Token![;]>()?;
+            let items = Punctuated::<Item, Token![,]>::parse_terminated(input)?;
+            return Ok(Self {
+                sep: Some(sep),
+                items: items.into_iter().collect(),
+            });
+        }
 
+        let items = Punctuated::<Item, Token![,]>::parse_terminated(input)?;
         Ok(Self {
+            sep: None,
             items: items.into_iter().collect(),
         })
     }

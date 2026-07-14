@@ -1,8 +1,6 @@
 # FastCat
 
-The fastest, constant able, no-std compatible way to concatenate `&str`s
-
-It's a fork of [fast-concat](https://github.com/tigerros/fast-concat), similar to it but some sight adjustments and remove the required constcat dependency.
+Fast string concatenation, with const-str support built in and a fork of [fast-concat](https://github.com/tigerros/fast-concat)
 
 ### Get Started
 
@@ -21,7 +19,19 @@ use fastcat::fconcat;
 fn main() {
     let name = "world";
     let greeting = fconcat!("hello ", name);
-    println!("{greeting}");
+    println!("{greeting}"); // Hello world
+}
+```
+
+```rust
+use fastcat::fconcat;
+
+fn main() {
+    let base = "/usr/local";
+    let user = "bob";
+    // to intantiate a separator it need to be first and ends with ;
+    let greeting = fconcat!("/"; base, user, "bin"); 
+    println!("{greeting}"); // "/usr/local/bob/bin"
 }
 ```
 

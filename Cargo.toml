@@ -3,10 +3,10 @@ resolver = "3"
 members = ["crates/fastcat", "crates/fastcat-bench", "crates/fastcat-macro"]
 
 [workspace.package]
-version = "1.0.0"
+version = "1.1.0"
 edition = "2024"
 license = "MIT OR Apache-2.0"
 
 [workspace.dependencies]
-fastcat = { path = "crates/fastcat", version = "1.0.0" }
-fastcat-macro = { path = "crates/fastcat-macro", version = "1.0.0" }
+fastcat = { path = "crates/fastcat", version = "1.1.0" }
+fastcat-macro = { path = "crates/fastcat-macro", version = "1.1.0" }

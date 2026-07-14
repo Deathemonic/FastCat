@@ -224,7 +224,7 @@ dependencies = [
 
 [[package]]
 name = "fastcat"
-version = "1.0.0"
+version = "1.1.0"
 dependencies = [
  "fastcat-macro",
 ]
@@ -242,7 +242,7 @@ dependencies = [
 
 [[package]]
 name = "fastcat-macro"
-version = "1.0.0"
+version = "1.1.0"
 dependencies = [
  "proc-macro-crate",
  "proc-macro2",
