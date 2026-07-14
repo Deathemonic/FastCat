@@ -74,3 +74,18 @@ jobs:
         run: cargo hack test --feature-powerset --all-targets -q
       - name: Doctest
         run: cargo hack test --feature-powerset --doc -q
+
+  bench:
+    runs-on: macos-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Bench
+        run: cargo bench -p fastcat-bench
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@v4
+        with:
+          name: criterion-results
+          path: target/criterion
+          retention-days: 30
