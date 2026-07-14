@@ -13,13 +13,12 @@ fastcat = "1.0.0"
 
 Then to use it
 ```rust
-
 use fastcat::fconcat;
 
 fn main() {
     let name = "world";
     let greeting = fconcat!("hello ", name);
-    println!("{greeting}"); // Hello world
+    println!("{greeting}"); // "hello world"
 }
 ```
 

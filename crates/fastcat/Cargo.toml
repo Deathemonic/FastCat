@@ -5,6 +5,8 @@ edition.workspace = true
 license.workspace = true
 description = "Fast string concatenation, with const-str support built in."
 readme = "../../README.md"
+categories = ["no-std", "value-formatting", "rust-patterns"]
+keywords = ["concat", "concatenation", "string", "const", "no-std"]
 
 [dependencies]
 fastcat-macro.workspace = true
