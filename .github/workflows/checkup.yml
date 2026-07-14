@@ -73,7 +73,7 @@ jobs:
       - name: Test
         run: cargo hack test --feature-powerset --all-targets -q
       - name: Doctest
-        run: cargo hack test --feature-powerset --doc -q
+        run: cargo hack test --feature-powerset --doc -q --workspace --exclude fastcat-bench
 
   bench:
     runs-on: macos-latest

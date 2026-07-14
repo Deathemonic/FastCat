@@ -109,7 +109,7 @@ fn bench_single_dynamic(c: &mut Criterion) {
     });
 
     group.bench_function("format!", |b| {
-        b.iter(|| black_box(format!("{s}")));
+        b.iter(|| black_box(s.to_string()));
     });
 
     group.bench_function("baseline-passthrough", |b| {
