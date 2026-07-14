@@ -1,3 +1,38 @@
+//! Fast string concatenation, with const-str support built in.
+//!
+//! The [`fconcat!`] macro concatenates `&str` pieces into a single
+//! string. When every piece is a compile-time constant, the result
+//! folds into a single `&'static str` with zero runtime cost; mixed
+//! or fully dynamic pieces fall back to one pre-sized allocation and
+//! a straight sequence of `push_str` calls, no reallocation, no
+//! wasted copies.
+//!
+//! ```
+//! use fastcat::fconcat;
+//!
+//! fn main() {
+//!     let name = "world";
+//!     let greeting = fconcat!("hello ", name);
+//!     asset_eq!(greeting, "hello world");
+//! }
+//! ```
+//!
+//! A leading `sep;` clause joins pieces with a separator, folding it
+//! in for free wherever the separator and its neighbors are const:
+//!
+//! ```
+//! use fastcat::fconcat;
+//!
+//! fn main() {
+//!     let path = fconcat!("/"; "usr", "local", "bin");
+//!     assert_eq!(path, "usr/local/bin");
+//! }
+//! ```
+//!
+//! See [`fconcat!`] for the full syntax reference.
+//!
+//! This crate is supports `no_std`.
+
 #![no_std]
 #![warn(clippy::pedantic, clippy::nursery)]
 #![deny(clippy::unwrap_used, clippy::expect_used)]

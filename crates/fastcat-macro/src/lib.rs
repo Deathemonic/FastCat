@@ -20,6 +20,53 @@ fn fastcat_path() -> proc_macro2::TokenStream {
     }
 }
 
+/// Concatenates `&str` pieces into a single string, as fast as possible.
+///
+/// If every piece is a compile-time constant (a string literal, or a
+/// `const { ... }` block), the entire result is folded into a single
+/// `&'static str` at compile time — zero runtime cost. Otherwise, it
+/// falls back to a single pre-sized allocation followed by a sequence
+/// of `push_str` calls, avoiding reallocation and unnecessary copies.
+///
+/// # Basic usage
+///
+/// ```
+/// use fastcat::fconcat;
+///
+/// let name = "world";
+/// let greeting = fconcat!("hello ", name);
+/// assert_eq!(greeting, "hello world");
+/// ```
+///
+/// # Const pieces
+///
+/// Wrap a named `const` in `const { ... }` to let it participate in
+/// compile-time folding:
+///
+/// ```
+/// use fastcat::fconcat;
+///
+/// const GREETING: &str = "hello ";
+/// const RESULT: &str = fconcat!(const { GREETING }, "world");
+/// assert_eq!(RESULT, "hello world");
+/// ```
+///
+/// # Separators
+///
+/// A leading `sep;` clause joins every piece with `sep`. If the
+/// separator and its neighboring pieces are compile-time constants,
+/// the separator is folded in for free:
+///
+/// ```
+/// use fastcat::fconcat;
+///
+/// let path = fconcat!("/"; "usr", "local", "bin");
+/// assert_eq!(path, "usr/local/bin");
+/// ```
+///
+/// If the separator itself is only known at runtime, prefer
+/// [`slice::join`] instead, since `fconcat!` can't fold around a
+/// value it doesn't have until runtime.
 #[proc_macro]
 pub fn fconcat(input: TokenStream) -> TokenStream {
     let args = parse_macro_input!(input as Args);
